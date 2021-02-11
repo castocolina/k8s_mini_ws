@@ -19,3 +19,6 @@ show_ip:
 
 dashboard:
 	minikube dashboard -p workshop
+
+stop:
+	minikube stop -p workshop
