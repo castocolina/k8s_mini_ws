@@ -3,6 +3,8 @@
 BASEDIR=$(dirname "$0")
 source $BASEDIR/../common/common.sh
 
+### https://minikube.sigs.k8s.io/docs/start/
+
 export K8_PROFILE_NAME=workshop
 export K8_NAMESPACE=sample1
 export K8_MINIK_RAM_MB=5GB
