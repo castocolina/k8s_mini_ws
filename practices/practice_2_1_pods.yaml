@@ -1,0 +1,22 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: mypod
+  labels:
+    foo: bar
+spec:
+  containers:
+    - name: pause
+      image: k8s.gcr.io/pause:3.1
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: mypod2
+  namespace: workshop-ns
+  labels:
+    foo: bar
+spec:
+  containers:
+    - name: pause
+      image: k8s.gcr.io/pause:3.1

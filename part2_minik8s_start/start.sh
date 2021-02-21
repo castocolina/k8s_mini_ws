@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 BASEDIR=$(dirname "$0")
 source $BASEDIR/../common/common.sh
