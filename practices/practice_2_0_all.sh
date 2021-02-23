@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 
 ### List PODS, create, list by namespace
