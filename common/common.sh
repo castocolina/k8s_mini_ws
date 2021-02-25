@@ -5,6 +5,9 @@ export CONSOLE_OUT_SEP_STR=$SEPARATOR
 export MY_OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 export MY_PLATFORM=$(uname -m)
 
+export K8_PROFILE_NAME=workshop
+export K8_NAMESPACE="workshop-ns"
+
 source /etc/os-release &>/dev/null
 
 function exist_cmd() {

@@ -1,0 +1,139 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: workshop-ns
+spec:
+  selector:
+    matchLabels:
+      app: hello
+      tier: backend
+      track: stable
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: hello
+        tier: backend
+        track: stable
+    spec:
+      containers:
+        - name: hello
+          image: "gcr.io/google-samples/hello-go-gke:1.0"
+          ports:
+            - name: http      ## Named port
+              containerPort: 80
+...
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello
+  namespace: workshop-ns
+spec:
+  selector:
+    app: hello
+    tier: backend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: http ## References to pod named port
+...
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: workshop-ns
+spec:
+  selector:
+    matchLabels:
+      app: hello
+      tier: frontend
+      track: stable
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hello
+        tier: frontend
+        track: stable
+    spec:
+      containers:
+        - name: nginx
+          image: "gcr.io/google-samples/hello-frontend:1.0"
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/usr/sbin/nginx","-s","quit"]
+          ## No named ports
+...
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-cluster-ip
+  namespace: workshop-ns
+spec:
+  selector:
+    app: hello
+    tier: frontend
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+  type: ClusterIP
+...
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-load
+  namespace: workshop-ns
+spec:
+  selector:
+    app: hello
+    tier: frontend
+  ports:
+  - protocol: "TCP"
+    port: 80
+    targetPort: 80
+  type: LoadBalancer
+...
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-node-port
+  namespace: workshop-ns
+spec:
+  selector:
+    app: hello
+    tier: frontend
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+      nodePort: 30800 ## The range of valid ports is 30000-32767
+  type: NodePort
+...
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-node-port-random
+  namespace: workshop-ns
+spec:
+  selector:
+    app: hello
+    tier: frontend
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+      ## No nodePort declaration. Expect random one
+  type: NodePort
+...
+

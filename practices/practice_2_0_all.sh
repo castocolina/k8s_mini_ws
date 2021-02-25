@@ -20,7 +20,7 @@ kubectl get pod mypod -n workshop-ns
 
 # List from all namespaces (-A) with extra information (-o wide) and waiting for changes (-w)
 kubectl get deployments -A -o wide -w
-# -o could be wide, json, yaml, etc. Helps to know importants fields of many objects structures
+# -o could be json, yaml, wide (to show more fields than standar), custom format, etc
 
 # Create deploy from CLI
 kubectl create deployment snowflake --image=k8s.gcr.io/serve_hostname  -n=workshop-ns --replicas=2

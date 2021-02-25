@@ -19,6 +19,7 @@ kubectl exec -n workshop-ns configmap-demo-pod -- sh -c "ls /config/;cat /config
 #######################################################
 ### SECRETS
 #######################################################
+kubens workshop-ns
 
 kubectl apply -f ./practices/practice_3_2_secrets.yaml
 

@@ -1,7 +1,7 @@
 # k8s_mini_ws
 k8s minikube whorkshop
 
-Presentation
+Presentation https://docs.google.com/presentation/d/1bZDzrIPnhK8qVwNvo8hw524POwHdrv1RUkoVeQWcNuQ/edit?usp=sharing
 
 ### References
 

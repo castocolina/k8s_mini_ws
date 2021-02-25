@@ -1,3 +1,6 @@
+export K8_PROFILE_NAME=workshop
+export K8_LOG_LEVEL=3
+	
 
 tools:
 	@bash part1_tools/n1_virtualization.sh
@@ -11,14 +14,19 @@ create:
 	@bash part2_minik8s_start/start.sh
 
 show_ip:
-	K8_PROFILE_NAME=workshop; \
-	@echo "minikube ip --v=$$K8_LOG_LEVEL -p $$K8_PROFILE_NAME"; \
-	@echo "$(minikube ip --v=$$K8_LOG_LEVEL -p $$K8_PROFILE_NAME)"; \
-	@echo "PATH HTTP: http://$(minikube ip -p $$K8_PROFILE_NAME)"; \
-	@echo "PATH HTTPS: https://$(minikube ip -p $$K8_PROFILE_NAME)";
+	@echo "minikube ip --v=$$K8_LOG_LEVEL -p $${K8_PROFILE_NAME}"; 
+	@echo "$$(minikube ip --v=$$K8_LOG_LEVEL -p $${K8_PROFILE_NAME})";
+	@echo "PATH HTTP: http://$$(minikube ip -p $${K8_PROFILE_NAME})";
+	@echo "PATH HTTPS: https://$$(minikube ip -p $${K8_PROFILE_NAME})";
 
 dashboard:
-	minikube dashboard -p workshop
+	minikube dashboard -p "$${K8_PROFILE_NAME}"
 
 stop:
-	minikube stop -p workshop
+	minikube stop -p "$${K8_PROFILE_NAME}"
+
+services:
+	minikube service list -p "$${K8_PROFILE_NAME}"
+
+ssh:
+	minikube ssh -p "$${K8_PROFILE_NAME}"
