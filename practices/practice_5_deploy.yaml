@@ -1,0 +1,82 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: volumedemo1
+  namespace: workshop-ns
+spec:
+  selector:
+    matchLabels:
+      app: volumedemo1
+      tier: backend
+      track: stable
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: volumedemo1
+        tier: backend
+        track: stable
+    spec:
+      containers:
+        - name: verbose-program1
+          image: busybox
+          args: ["sh", "-c", "while true; do echo \"${hostname} - hello at $(date) *****************************\" | tee -a $MYFILE; sleep 1;done"]
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "echo \"${hostname} - PROGRAM START HANDLER at $(date)\" | tee -a $MYFILE;"]
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "echo \"${hostname} - PROGRAM STOP HANDLER at $(date)\" | tee -a $MYFILE;"]
+          env:
+          - name: MYFILE
+            value: /var/log/mylog.log
+          volumeMounts:
+            - name: varlog
+              mountPath: /var/log
+        - name: logrotate
+          image: alpine
+          args: ["sh", "-c", "/entrypoint.sh"]
+          env:
+          - name: MYFILE
+            value: /var/log/mylog.log
+          volumeMounts:
+            - name: varlog
+              mountPath: /var/log
+            - name: logrotator-conf
+              mountPath: /opt/etc/logrotate.conf
+              subPath: logrotate.conf
+            - name: logrotator-conf
+              mountPath: /entrypoint.sh
+              subPath: entrypoint.sh
+        - name: nginx
+          image: nginx
+          volumeMounts:
+            - name: varlog
+              mountPath: /var/log/program
+            - name: nginx-conf
+              subPath: nginx-logs.conf
+              mountPath: /etc/nginx/conf.d/default.conf
+              
+      volumes:
+        - name: varlog
+          emptyDir: {}
+        - name: logrotator-conf
+          configMap:
+            name: logrotate-config
+            items:
+              - key: logrotate.conf
+                mode: 0400
+                path: logrotate.conf
+              - key: entrypoint.sh
+                mode: 0500
+                path: entrypoint.sh
+        - name: nginx-conf
+          configMap:
+            name: nginx-config
+            items:
+              - key: nginx-logs.conf
+                path: nginx-logs.conf
+...
+---

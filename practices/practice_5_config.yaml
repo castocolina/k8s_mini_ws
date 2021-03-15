@@ -1,0 +1,115 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: workshop-ns
+  name: logrotate-config
+data:
+  sampleapp.sh: |
+    echo "POC APP STARTED";
+    LOG_DIR=/var/log;
+    LOG_FILE=$LOG_DIR/mylog.log;
+    i=0;
+    while true;
+    do
+      NEW_UUID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 500 | head -n 1)
+      NEW_B64=$(echo $NEW_UUID | base64)
+
+      echo "$(date) INFO $i -1";
+      echo "$(date) INFO $i -2 - $NEW_UUID";
+      echo "$(date) INFO $i -3 - $NEW_B64";
+
+      i=$((i+1));
+      sleep 5;
+    done
+
+  entrypoint.sh: |
+    apk --update --no-cache add logrotate
+    echo "Rotator STARTED "
+    # Override paths for CONF_FILE or STATE_FILE if you need. Defaults:
+    CONF_FILE=${CONF_FILE:-/opt/etc/logrotate.conf}
+    STATE_FILE=${STATE_FILE:-/var/log/logrotate.status}
+
+    echo "CONF_FILE  = $CONF_FILE"
+    echo "STATE_FILE = $STATE_FILE"
+
+    #version
+    logrotate --version
+    echo
+    
+    CMD_PREFIX="echo 'RUN ROTATOR'"
+    CMD_SUFIX="echo 'ROTATOR SUCCESS' && du -sh /var/log/* && ls -la /var/log/*"
+    ROTATE_CMD="$CMD_PREFIX && /usr/sbin/logrotate --state $STATE_FILE $CONF_FILE && $CMD_SUFIX"
+    # run test command
+    sh -c "$ROTATE_CMD";
+    # echo "* * * * * $ROTATE_CMD" >> /etc/crontabs/root
+    echo "* * * * * $ROTATE_CMD; sleep 10; $ROTATE_CMD; sleep 10; $ROTATE_CMD; sleep 10; $ROTATE_CMD; sleep 10; $ROTATE_CMD; sleep 10; $ROTATE_CMD;" >> /etc/crontabs/root
+    crond -f
+
+  # More info in
+  # https://linux.die.net/man/8/logrotate
+  # http://man7.org/linux/man-pages/man8/logrotate.8.html
+  # https://www.digitalocean.com/community/tutorials/how-to-manage-logfiles-with-logrotate-on-ubuntu-16-04
+  logrotate.conf: |
+    size 1k
+    notifempty
+
+    # see "man logrotate" for details
+    rotate 9
+
+    # https://docs.fluentd.org/input/tail#logrotate-setting
+    # create new (empty) log files after rotating old ones
+    create 755 root root
+
+    # use date as a suffix of the rotated file
+    # dateext
+
+    # uncomment this if you want your log files compressed
+    # compress
+
+    # your log file, mounted into the container
+    /var/log/*.log { 
+      su root root
+    }
+...
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: workshop-ns
+  name: nginx-config
+data:
+  nginx-logs.conf: |
+    server {
+      listen       80;
+      listen  [::]:80;
+      server_name  localhost;
+
+      #charset koi8-r;
+      #access_log  /var/log/nginx/host.access.log  main;
+
+      location / {
+          root   /usr/share/nginx/html;
+          index  index.html index.htm;
+      }
+
+      #error_page  404              /404.html;
+
+      # redirect server error pages to the static page /50x.html
+      #
+      error_page   500 502 503 504  /50x.html;
+      location = /50x.html {
+          root   /usr/share/nginx/html;
+      }
+
+      location /logs {
+          alias   /var/log/program;
+          autoindex on;
+          autoindex_exact_size off;
+          autoindex_format html;
+          autoindex_localtime on;
+          default_type text/plain ;
+      }
+    }
+
+...

@@ -1,0 +1,2 @@
+logrotate state -- version 2
+"/var/log/mylog.log" 2021-3-15-4:54:0

@@ -28,20 +28,35 @@ echo
 
 echo
 echo "GET EXTERNAL PORT FOR NODE PORT"
+set -v
 curl -v "http://${EXTERNAL_IP}:30800"
+set +v
 printf "\n\n\n\n"
 
 echo
 echo "try with NODE PORT URL"
+set -v
 curl -v "${URL_NODE_PORT}"
+set +v
 printf "\n\n\n\n"
 
 echo
 echo "try with LOAD BALANCE URL"
+set -v
 curl -v "${URL_LOAD_BAL}"
+set +v
 printf "\n\n\n\n"
 
 echo
 echo "try with NODE PORT RANDOM URL"
+set -v
 curl -v "${URL_NODE_PORT_RANDOM}"
+set +v
+printf "\n\n\n\n"
+
+echo
+echo "try with NODE IP and ingress path"
+set -v
+curl -v "http://${EXTERNAL_IP}:80/testpath"
+set +v
 printf "\n\n\n\n"
