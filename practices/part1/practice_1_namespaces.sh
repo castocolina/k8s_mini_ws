@@ -16,10 +16,10 @@ kubectl delete namespaces example-ns-1
 ## Create the development namespace using kubectl
 kubectl create -f https://k8s.io/examples/admin/namespace-dev.json
 
-kubectl create -f ./practices/practice_1_namespaces.yaml
-kubectl create -f ./practices/practice_1_namespaces.yaml
-kubectl apply -f ./practices/practice_1_namespaces.yaml
+kubectl create -f ./practices/part1/practice_1_namespaces.yaml
+kubectl create -f ./practices/part1/practice_1_namespaces.yaml
+kubectl apply -f ./practices/part1/practice_1_namespaces.yaml
 
 # dry-run
-kubectl create -f ./practices/practice_1_namespaces.yaml --dry-run=client
+kubectl create -f ./practices/part1/practice_1_namespaces.yaml --dry-run=client
 

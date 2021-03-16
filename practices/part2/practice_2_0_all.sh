@@ -9,7 +9,7 @@ kubectl get pods --namespace default
 kubectl get pods -n workshop-ns
 
 # create from yaml
-kubectl apply -f ./practices/practice_2_1_pods.yaml
+kubectl apply -f ./practices/part2/practice_2_1_pods.yaml
 
 kubectl get pods workshop-ns
 
@@ -30,5 +30,5 @@ kubectl get pods -l app=snowflake -n=workshop-ns
 kubectl describe pods -l app=snowflake -n=workshop-ns
 kubectl describe deployment snowflake -n=workshop-ns
 # create from yaml
-kubectl apply -f ./practices/practice_2_2_deployment.yaml
+kubectl apply -f ./practices/part2/practice_2_2_deployment.yaml
 

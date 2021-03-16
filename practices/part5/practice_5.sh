@@ -3,10 +3,10 @@ BASEDIR=$(dirname "$0")
 source $BASEDIR/../common/common.sh
 
 # create application stack
-kubectl apply -f ./practices/practice_5_config.yaml
-kubectl delete -f ./practices/practice_5_deploy.yaml
-kubectl apply -f ./practices/practice_5_deploy.yaml
-kubectl apply -f ./practices/practice_5_service.yaml
+kubectl apply -f ./practices/part5/practice_5_config.yaml
+kubectl delete -f ./practices/part5/practice_5_deploy.yaml
+kubectl apply -f ./practices/part5/practice_5_deploy.yaml
+kubectl apply -f ./practices/part5/practice_5_service.yaml
 
 echo
 echo 

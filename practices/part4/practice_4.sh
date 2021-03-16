@@ -3,7 +3,7 @@ BASEDIR=$(dirname "$0")
 source $BASEDIR/../common/common.sh
 
 # create application stack
-kubectl apply -f ./practices/practice_4.yaml
+kubectl apply -f ./practices/part4/practice_4.yaml
 
 echo
 echo 
