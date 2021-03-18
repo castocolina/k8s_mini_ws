@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: observability
+  name: observ-prometheus
+  labels:
+    app: observ-prometheus
+spec:
+  type: ClusterIP
+  ports:
+    - name: prom
+      port: 9090
+      targetPort: 9090
+      protocol: TCP
+  selector:
+    app: observ-prometheus

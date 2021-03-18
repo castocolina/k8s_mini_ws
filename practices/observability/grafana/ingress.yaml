@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: observ-grafana
+  namespace: observability
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+       rewrite ^/observ-grafana/(.*)$ /$1 break;
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /observ-grafana
+        backend:
+          serviceName: observ-grafana
+          servicePort: 3000

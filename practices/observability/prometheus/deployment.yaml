@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: observability
+  name: observ-prometheus
+  labels:
+    app: observ-prometheus
+spec:
+  selector:
+    matchLabels:
+      app: observ-prometheus
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: observ-prometheus
+    spec:
+      containers:
+        - name: observ-prometheus
+          image: prom/prometheus:v2.11.1
+          args:
+            - --config.file=/etc/prometheus/prometheus.yml
+            - --storage.tsdb.path=/prometheus
+            - --storage.tsdb.retention.time=240h
+            - --web.external-url=https://0.0.0.0/observ-prometheus
+            - --web.route-prefix=/
+          resources:
+            requests:
+              cpu: 20m
+              memory: 50Mi
+            limits:
+              cpu: "150m"
+              memory: "256Mi"
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - mountPath: /prometheus
+              name: prometheus-pvc-storage
+            - mountPath: /etc/prometheus
+              name: config-volume
+      volumes:
+        # - emptyDir: {}
+        #   name: data
+        - name: prometheus-pvc-storage
+          persistentVolumeClaim:
+            claimName: prometheus-pvc-storage
+        - configMap:
+            name: prometheus-conf
+          name: config-volume

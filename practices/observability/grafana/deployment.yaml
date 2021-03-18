@@ -1,0 +1,89 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  namespace: observability
+  name: observ-grafana
+  labels:
+    app: observ-grafana
+spec:
+  selector:
+    matchLabels:
+      app: observ-grafana
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: observ-grafana
+    spec:
+      containers:
+        - name: observ-grafana
+          image: grafana/grafana:6.2.5
+          env:
+          - name: GF_AUTH_BASIC_ENABLED
+            value: "false"
+          - name: GF_LOG_LEVEL
+            value: debug
+          - name: GF_SECURITY_ADMIN_PASSWORD
+            value: admin
+          - name: GF_USERS_ALLOW_SIGN_UP
+            value: "false"
+          - name: GF_SERVER_SERVE_FROM_SUB_PATH
+            value: "true"
+          - name: GF_SERVER_ROOT_URL
+            value: https://0.0.0.0/observ-grafana
+          resources:
+            requests:
+              cpu: 20m
+              memory: 50Mi
+            limits:
+              cpu: "300m"
+              memory: "96Mi"
+          ports:
+          - containerPort: 3000
+          volumeMounts:
+          - name: grafana-conf-prov-ds
+            mountPath: /etc/grafana/provisioning/datasources/datasource.yaml
+            subPath: prov-ds.yaml
+          - name: grafana-conf-prov-dash
+            mountPath: /etc/grafana/provisioning/dashboards/dashboard.yaml
+            subPath: prov-dash.yaml
+
+          - name: grafana-conf-dash-prom
+            mountPath: /etc/grafana/provisioning/dashboards/dash-prom.json
+            subPath: dash-prom.json
+          - name: grafana-conf-dash-redis
+            mountPath: /etc/grafana/provisioning/dashboards/dash-redis.json
+            subPath: dash-redis.json
+          - name: grafana-conf-dash-nats
+            mountPath: /etc/grafana/provisioning/dashboards/dash-nats.json
+            subPath: dash-nats.json
+            
+          - name: grafana-pvc-storage
+            mountPath: /var/lib/grafana
+      volumes:
+      - name: grafana-pvc-storage
+        persistentVolumeClaim:
+          claimName: grafana-pvc-storage
+
+      - name: grafana-conf-prov-dash
+        configMap:
+          name: grafana-conf-prov-dash
+      - name: grafana-conf-prov-ds
+        configMap:
+          name: grafana-conf-prov-ds
+
+      - name: grafana-conf-dash-nats
+        configMap:
+          name: grafana-conf-dash-nats
+      - name: grafana-conf-dash-redis
+        configMap:
+          name: grafana-conf-dash-redis
+      - name: grafana-conf-dash-prom
+        configMap:
+          name: grafana-conf-dash-prom
+      
