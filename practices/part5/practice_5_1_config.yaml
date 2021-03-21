@@ -109,6 +109,8 @@ data:
           autoindex_format html;
           autoindex_localtime on;
           default_type text/plain ;
+          expires -1;
+          add_header 'Cache-Control' 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
       }
     }
 

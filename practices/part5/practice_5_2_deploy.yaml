@@ -19,23 +19,21 @@ spec:
         track: stable
     spec:
       containers:
-        - name: verbose-program2
-          image: node:lts-buster
-          workingDir: /app
-          args: 
-            - "sh" 
-            - "-c" 
-            - ""
+        - name: verbose-demo-app
+          image: castocolina/demo-app-logs
+          imagePullPolicy: Always
+          resources: {}
           env:
           - name: LOGS_FOLDER
-            value: /var/log/
+            value: /var/log
           volumeMounts:
             - name: varlog
               mountPath: /var/log
-            - name: node-app
-              mountPath: /tmp/app
         - name: nginx
           image: nginx
+          resources: {}
+          ports:
+            - containerPort: 80
           volumeMounts:
             - name: varlog
               mountPath: /var/log/program

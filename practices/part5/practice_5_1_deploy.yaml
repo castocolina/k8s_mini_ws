@@ -21,6 +21,7 @@ spec:
       containers:
         - name: verbose-program1
           image: busybox
+          resources: {}
           args: ["sh", "-c", "while true; do echo \"${hostname} - hello at $(date) *****************************\" | tee -a $MYFILE; sleep 1;done"]
           lifecycle:
             postStart:
@@ -37,6 +38,7 @@ spec:
               mountPath: /var/log
         - name: logrotate
           image: alpine
+          resources: {}
           args: ["sh", "-c", "/entrypoint.sh"]
           env:
           - name: MYFILE
@@ -52,6 +54,9 @@ spec:
               subPath: entrypoint.sh
         - name: nginx
           image: nginx
+          resources: {}
+          ports:
+            - containerPort: 80
           volumeMounts:
             - name: varlog
               mountPath: /var/log/program
