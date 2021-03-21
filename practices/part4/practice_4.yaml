@@ -21,6 +21,7 @@ spec:
       containers:
         - name: hello
           image: "gcr.io/google-samples/hello-go-gke:1.0"
+          resources: {}
           ports:
             - name: http      ## Named port
               containerPort: 80
@@ -66,6 +67,7 @@ spec:
           # NGINX image. Only forward request to backend
           # https://kubernetes.io/docs/tasks/access-application-cluster/connecting-frontend-backend/#creating-the-frontend
           image: "gcr.io/google-samples/hello-frontend:1.0"
+          resources: {}
           lifecycle:
             preStop:
               exec:

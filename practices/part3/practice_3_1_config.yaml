@@ -41,6 +41,7 @@ spec:
   containers:
     - name: demo
       image: alpine
+      resources: {}
       command: ["sleep", "3600"]
       env:
         # Define the environment variable

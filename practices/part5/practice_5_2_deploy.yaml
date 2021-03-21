@@ -65,4 +65,3 @@ spec:
               - key: nginx-logs.conf
                 path: nginx-logs.conf
 ...
----
