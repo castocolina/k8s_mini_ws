@@ -26,8 +26,16 @@ spec:
           env:
           - name: LOGS_FOLDER
             value: /var/log
+          - name: FILE_NAME
+            value: output.log
+          - name: FILE_MAX_SIZE_BYTES
+            value: "2048"
+          - name: MAX_FILES
+            value: "1000"
+          - name: TAILABLE
+            value: "true"
           volumeMounts:
-            - name: varlog
+            - name: varlog-pvc
               mountPath: /var/log
         - name: nginx
           image: nginx
@@ -35,7 +43,7 @@ spec:
           ports:
             - containerPort: 80
           volumeMounts:
-            - name: varlog
+            - name: varlog-pvc
               mountPath: /var/log/program
               readOnly: true
             - name: nginx-conf
@@ -44,6 +52,9 @@ spec:
       volumes:
         - name: varlog
           emptyDir: {}
+        - name: varlog-pvc
+          persistentVolumeClaim:
+            claimName: volume2-pvc-storage
         - name: node-app
           configMap:
             name: node-app-from-files
