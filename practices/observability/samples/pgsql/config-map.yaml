@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgsql-conf
+  namespace: observability
+data:
+    POSTGRES_USER: demo-user
+    POSTGRES_PASSWORD: DemoUser$2021
+    POSTGRES_DB: demo-db
+    DATA_SOURCE_NAME: "postgresql://demo-user:DemoUser$2021@localhost:5432/demo-db?sslmode=disable"
+    

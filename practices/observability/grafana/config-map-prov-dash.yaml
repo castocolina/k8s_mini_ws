@@ -1,4 +1,8 @@
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-conf-prov-dash
+  namespace: observability
 data:
   prov-dash.yaml: |
     apiVersion: 1
@@ -12,8 +16,3 @@ data:
       editable: true
       options:
         path: /etc/grafana/provisioning/dashboards
-kind: ConfigMap
-metadata:
-  creationTimestamp: null
-  name: grafana-conf-prov-dash
-  namespace: observability

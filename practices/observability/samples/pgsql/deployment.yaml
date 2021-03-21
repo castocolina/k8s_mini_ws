@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: observability
+  name: observ-postgres
+  labels:
+    app: observ-postgres
+spec:
+  selector:
+    matchLabels:
+      app: observ-postgres
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: observ-postgres
+    spec:
+      containers:
+        - name: observ-postgres
+          image: postgres:13.2
+          envFrom:
+            - configMapRef:
+                name: pgsql-conf 
+          resources:
+            requests:
+              cpu: 30m
+              memory: 50Mi
+            limits:
+              cpu: "200m"
+              memory: "200Mi"
+          ports:
+            - containerPort: 5432
+        - name: pgsql-exporter
+          image: prometheuscommunity/postgres-exporter:v0.9.0
+          envFrom:
+            - configMapRef:
+                name: pgsql-conf
+          resources:
+            requests:
+              cpu: 20m
+              memory: 12Mi
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
+          ports:
+            - name: mssql
+              containerPort: 9187
+          volumeMounts:
+            - name: exporter-storage
+              mountPath: /config
+      volumes:
+        # - emptyDir: {}
+        #   name: data
+        - name: pgsql-pvc-storage
+          persistentVolumeClaim:
+            claimName: pgsql-pvc-storage
+        - name: exporter-storage
+          emptyDir: {}

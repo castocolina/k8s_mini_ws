@@ -1,4 +1,8 @@
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-conf-dash-redis
+  namespace: observability
 data:
   dash-redis.json: |
     {
@@ -1283,8 +1287,4 @@ data:
       "uid": "JCwWwlVWk",
       "version": 19
     }
-kind: ConfigMap
-metadata:
-  creationTimestamp: null
-  name: grafana-conf-dash-redis
-  namespace: observability
+

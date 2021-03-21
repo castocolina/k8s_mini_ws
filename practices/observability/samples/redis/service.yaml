@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: observability
+  name: observ-redis-cache-service
+  labels:
+    app: observ-redis-cache
+spec:
+  type: ClusterIP
+  ports:
+    - name: cache
+      port: 6379
+      targetPort: 6379
+      protocol: TCP
+    - name: exporter
+      port: 9121
+      protocol: TCP
+      targetPort: 9121
+  selector:
+    app: observ-redis-cache

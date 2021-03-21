@@ -1,0 +1,52 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  namespace: observability
+  name: observ-redis-cache
+  labels:
+    app: observ-redis-cache
+spec:
+  selector:
+    matchLabels:
+      app: observ-redis-cache
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: observ-redis-cache
+    spec:
+      containers:
+        - name: redis-cache
+          image: redis:6.2
+          args:
+            - --maxmemory 28mb
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: "30m"
+              memory: "32Mi"
+          ports:
+            - containerPort: 6379
+
+        - name: redis-cache-exporter
+          image: oliver006/redis_exporter:v1.18.0
+          ports:
+            - containerPort: 9121
+          args:
+            - --log-format=json
+            - --debug
+          resources:
+            requests:
+              cpu: "5m"
+              memory: "16Mi"
+            limits:
+              cpu: "25m"
+              memory: "32Mi"
+

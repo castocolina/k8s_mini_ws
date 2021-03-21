@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: observ-grafana
+  name: observ-pgsql-prom-exporter
   namespace: observability
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
@@ -9,10 +9,12 @@ spec:
   rules:
     - http:
         paths:
-          - path: /observ-grafana/(.*)
+          - path: /observ-prom-exporter-pgsql(.*)
             pathType: Prefix
             backend:
               service:
-                name: observ-grafana
-                port:
-                  number: 3000
+                name: observ-postgres
+                port: 
+                  number: 9187
+                  
+              

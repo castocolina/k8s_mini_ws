@@ -22,7 +22,10 @@ spec:
         - name: verbose-program2
           image: node:lts-buster
           workingDir: /app
-          args: ["sh", "-c", "pwd; echo ${LOGS_FOLDER}; cp -Rv /tmp/app/* ./; ls -la .; while true; do echo \"$(date)\"; sleep 1;done"]
+          args: 
+            - "sh" 
+            - "-c" 
+            - ""
           env:
           - name: LOGS_FOLDER
             value: /var/log/
