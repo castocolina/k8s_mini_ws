@@ -1,7 +1,5 @@
-#!/bin/bash
-
-https://minikube.sigs.k8s.io/docs/commands/completion/
-https://kubernetes.io/docs/tasks/tools/install-kubectl/#enabling-shell-autocompletion
+# https://minikube.sigs.k8s.io/docs/commands/completion/
+# https://kubernetes.io/docs/tasks/tools/install-kubectl/#enabling-shell-autocompletion
 
 ################################
 ##           ZSH               #

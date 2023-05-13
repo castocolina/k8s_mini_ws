@@ -82,7 +82,7 @@ wait_for_enter
 function install_kubectx() {
   echo "INSTALL KUBECTX/KUBENS";
   if is_macos; then
-    sudo port install kubectx;
+    brew install kubectx;
   fi
 
   if is_linux; then
