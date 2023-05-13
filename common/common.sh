@@ -25,6 +25,21 @@ function wait_for_enter() {
   read test_input
 }
 
+function is_true() {
+  if [ "$1" = true ] || [ "$1" = "true" ] || [ "$1" = "1" ] || [ "$1" = "y" ] || [ "$1" = "yes" ]; then
+    return 0;
+  fi
+  return 1;
+}
+
+
+function is_false() {
+  if is_true $1 ; then
+    return 1;
+  fi
+  return 0;
+}
+
 function is_linux() {
   echo $MY_OS | grep -iqF "linux" && return
   false  
@@ -52,4 +67,12 @@ function wait_time(){
 	   sleep 1
 	   : $((secs--))
 	done
+}
+
+function get_github_latest_release(){
+  REPO_NAME=$1
+  DEFAULT=$2
+  FULL_URL="https://api.github.com/repos/$REPO_NAME/releases/latest"
+  RELEASE=$(curl --silent $FULL_URL | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p')
+  echo ${RELEASE:-$DEFAULT};
 }

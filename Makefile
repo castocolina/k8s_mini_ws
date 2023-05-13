@@ -1,5 +1,5 @@
 export K8_PROFILE_NAME=workshop
-export K8_LOG_LEVEL=3
+export K8_LOG_LEVEL=2
 	
 
 tools:
@@ -21,6 +21,9 @@ show_ip:
 
 dashboard:
 	minikube dashboard -p "$${K8_PROFILE_NAME}"
+
+destroy:
+	minikube delete -p "$${K8_PROFILE_NAME}"
 
 stop:
 	minikube stop -p "$${K8_PROFILE_NAME}"
