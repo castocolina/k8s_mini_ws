@@ -21,7 +21,7 @@ wait_for_enter
 minikube -p ${K8_PROFILE_NAME} kubectl -- apply -f https://k8s.io/examples/service/networking/example-ingress.yaml
 wait_for_enter
 
-wait_time 5
+wait_time 10
 minikube -p ${K8_PROFILE_NAME}  kubectl get ingress
 echo; echo;
 

@@ -4,7 +4,7 @@ BASEDIR=$(dirname "$0")
 source $BASEDIR/../commons/common.sh
 source $BASEDIR/../commons/colors.sh
 
-text_w_color "${K8_PROFILE_NAME}" "Blue" "On_Yellow"
+text_w_color "\n${K8_PROFILE_NAME}\n" "Blue" "On_Yellow"
 
 ### https://minikube.sigs.k8s.io/docs/start/
 
@@ -16,8 +16,7 @@ export K8_MINIK_DISK=25GB
 export K8_LOG_LEVEL=2
 # https://kubernetes.io/releases/
 # https://github.com/kubernetes/sig-release/blob/master/releases/patch-releases.md#cadence
-export K8_API_VERSION=v1.30.1; 
-export K8_API_VERSION="v1.26.5";
+export K8_API_VERSION="v1.27.2";
 
 # https://minikube.sigs.k8s.io/docs/drivers/
 export K8_MINIKUBE_DRIVER=docker ## virtualbox, hyperkit
@@ -41,7 +40,7 @@ printf "\n $CONSOLE_OUT_SEP_STR\n\n\n"
 # --gpu --vm-driver=kvm2 --vm-driver=hyperkit
 minikube start --alsologtostderr --v $K8_LOG_LEVEL -p $K8_PROFILE_NAME \
     --memory $K8_MINIK_RAM_MB --cpus $K8_MINIK_CPU_NUM --disk-size $K8_MINIK_DISK \
-    --vm-driver $K8_MINIKUBE_DRIVER --kubernetes-version $K8_API_VERSION
+    --driver $K8_MINIKUBE_DRIVER --kubernetes-version $K8_API_VERSION
 
 echo
 echo 
@@ -50,12 +49,23 @@ echo
 kubectx $K8_PROFILE_NAME
 echo
 
+printf "%s\n\n" "${CONSOLE_OUT_SEP_STR}"
+minikube --v=$K8_LOG_LEVEL -p $K8_PROFILE_NAME ssh sudo resolvectl dns eth0 8.8.8.8
+# minikube --v=$K8_LOG_LEVEL -p $K8_PROFILE_NAME ssh sudo resolvectl dns docker0 8.8.8.8 8.8.4.4
+# minikube --v=$K8_LOG_LEVEL -p $K8_PROFILE_NAME ssh sudo resolvectl dns sit0 8.8.8.8 8.8.4.4
+minikube --v=$K8_LOG_LEVEL -p $K8_PROFILE_NAME ssh cat /etc/resolv.conf
+printf "%s\n\n\n" "${CONSOLE_OUT_SEP_STR}"
+
+
 minikube addons enable metrics-server --v=$K8_LOG_LEVEL -p $K8_PROFILE_NAME
 minikube addons enable dashboard --v=$K8_LOG_LEVEL -p $K8_PROFILE_NAME
 minikube addons enable ingress --v=$K8_LOG_LEVEL -p $K8_PROFILE_NAME
 minikube addons enable ingress-dns --v=$K8_LOG_LEVEL -p $K8_PROFILE_NAME
 # # https://github.com/kubernetes/minikube/issues/1378#issuecomment-340789584
 # source $BASEDIR/sleepwatcher.zsh
+
+wait_time 5
+minikube -p $K8_PROFILE_NAME kubectl -- get pods -A
 
 printf "\n\n$CONSOLE_OUT_SEP_STR\n ::: kubectl:\n "
 minikube kubectl version
