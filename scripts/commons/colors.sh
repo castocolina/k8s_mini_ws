@@ -73,7 +73,7 @@ On_IPurple='\033[0;105m'  # Purple
 On_ICyan='\033[0;106m'    # Cyan
 On_IWhite='\033[0;107m'   # White
 
-declare -A colorsArray=( [Color_Off]="${Color_Off}" [Black]="${Black}" [Red]="${Red}" [Green]="${Green}" [Yellow]="${Yellow}" [Blue]="${Blue}" [Purple]="${Purple}" [Cyan]="${Cyan}" [White]="${White}" [BBlack]="${BBlack}" [BRed]="${BRed}" [BGreen]="${BGreen}" [BYellow]="${BYellow}" [BBlue]="${BBlue}" [BPurple]="${BPurple}" [BCyan]="${BCyan}" [BWhite]="${BWhite}" [UBlack]="${UBlack}" [URed]="${URed}" [UGreen]="${UGreen}" [UYellow]="${UYellow}" [UBlue]="${UBlue}" [UPurple]="${UPurple}" [UCyan]="${UCyan}" [UWhite]="${UWhite}" [On_Black]="${On_Black}" [On_Red]="${On_Red}" [On_Green]="${On_Green}" [On_Yellow]="${On_Yellow}" [On_Blue]="${On_Blue}" [On_Purple]="${On_Purple}" [On_Cyan]="${On_Cyan}" [On_White]="${On_White}" [IBlack]="${IBlack}" [IRed]="${IRed}" [IGreen]="${IGreen}" [IYellow]="${IYellow}" [IBlue]="${IBlue}" [IPurple]="${IPurple}" [ICyan]="${ICyan}" [IWhite]="${IWhite}" [BIBlack]="${BIBlack}" [BIRed]="${BIRed}" [BIGreen]="${BIGreen}" [BIYellow]="${BIYellow}" [BIBlue]="${BIBlue}" [BIPurple]="${BIPurple}" [BICyan]="${BICyan}" [BIWhite]="${BIWhite}" [On_IBlack]="${On_IBlack}" [On_IRed]="${On_IRed}" [On_IGreen]="${On_IGreen}" [On_IYellow]="${On_IYellow}" [On_IBlue]="${On_IBlue}" [On_IPurple]="${On_IPurple}" [On_ICyan]="${On_ICyan}" [On_IWhite]="${On_IWhite}" )
+#declare -A colorsArray=( [Color_Off]="${Color_Off}" [Black]="${Black}" [Red]="${Red}" [Green]="${Green}" [Yellow]="${Yellow}" [Blue]="${Blue}" [Purple]="${Purple}" [Cyan]="${Cyan}" [White]="${White}" [BBlack]="${BBlack}" [BRed]="${BRed}" [BGreen]="${BGreen}" [BYellow]="${BYellow}" [BBlue]="${BBlue}" [BPurple]="${BPurple}" [BCyan]="${BCyan}" [BWhite]="${BWhite}" [UBlack]="${UBlack}" [URed]="${URed}" [UGreen]="${UGreen}" [UYellow]="${UYellow}" [UBlue]="${UBlue}" [UPurple]="${UPurple}" [UCyan]="${UCyan}" [UWhite]="${UWhite}" [On_Black]="${On_Black}" [On_Red]="${On_Red}" [On_Green]="${On_Green}" [On_Yellow]="${On_Yellow}" [On_Blue]="${On_Blue}" [On_Purple]="${On_Purple}" [On_Cyan]="${On_Cyan}" [On_White]="${On_White}" [IBlack]="${IBlack}" [IRed]="${IRed}" [IGreen]="${IGreen}" [IYellow]="${IYellow}" [IBlue]="${IBlue}" [IPurple]="${IPurple}" [ICyan]="${ICyan}" [IWhite]="${IWhite}" [BIBlack]="${BIBlack}" [BIRed]="${BIRed}" [BIGreen]="${BIGreen}" [BIYellow]="${BIYellow}" [BIBlue]="${BIBlue}" [BIPurple]="${BIPurple}" [BICyan]="${BICyan}" [BIWhite]="${BIWhite}" [On_IBlack]="${On_IBlack}" [On_IRed]="${On_IRed}" [On_IGreen]="${On_IGreen}" [On_IYellow]="${On_IYellow}" [On_IBlue]="${On_IBlue}" [On_IPurple]="${On_IPurple}" [On_ICyan]="${On_ICyan}" [On_IWhite]="${On_IWhite}" )
 
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
 # https://stackabuse.com/how-to-change-the-output-color-of-echo-in-linux/
@@ -82,8 +82,8 @@ function text_w_color() {
   TEXT=$1
   FG_COLOR="${2:-BIWhite}"
   BG_COLOR="${2:-On_Black}"
-  MY_FG_COLOR=${colorsArray[$FG_COLOR]}
-  MY_BG_COLOR=${colorsArray[$BG_COLOR]}
+  MY_FG_COLOR=${!FG_COLOR} # ${colorsArray[$FG_COLOR]}
+  MY_BG_COLOR=${!BG_COLOR} # ${colorsArray[$BG_COLOR]}
 
   printf "${MY_FG_COLOR}${MY_BG_COLOR}${TEXT}${Color_Off}"
 }
