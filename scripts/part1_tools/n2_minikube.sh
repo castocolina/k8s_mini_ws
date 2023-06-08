@@ -1,7 +1,8 @@
 #!/bin/bash
 
 BASEDIR=$(dirname "$0")
-source $BASEDIR/../common/common.sh
+source $BASEDIR/../commons/common.sh
+source $BASEDIR/../commons/colors.sh
 
 mkdir -p tmp
 
@@ -16,7 +17,7 @@ function install_minikube {
 echo
 
 (exist_cmd minikube) && {
-  echo -n "UPDATE minikube? (y/n) > "
+  text_w_color "UPDATE minikube? (y/n) > " "Yellow"
   read to_update
   if is_true $to_update; then
     install_minikube
@@ -40,7 +41,7 @@ function install_kubeseal () {
 }
 
 (exist_cmd kubeseal) && {
-  echo -n "UPDATE kubeseal? (y/n) > "
+  text_w_color "UPDATE kubeseal? (y/n) > " "Yellow"
   read to_update
   if is_true $to_update; then
     install_kubeseal
@@ -51,6 +52,12 @@ function install_kubeseal () {
 wait_for_enter
 
 function install_kubectl() {
+  text_w_color "INSTALL KUBECTL? (y/n) > " "Yellow"
+  read to_update
+  if is_false $to_update; then
+    return 0;
+  fi
+
   echo "INSTALL KUBECTL";
   if is_linux; then
     if is_ubuntu; then
@@ -68,13 +75,14 @@ function install_kubectl() {
 }
 
 (exist_cmd kubectl) && {
-  echo -n "UPDATE kubectl? (y/n) > "
+  text_w_color "UPDATE kubectl? (y/n) > " "Yellow"
   read to_update
   if is_true $to_update; then
     install_kubectl
   fi
 }
-# (exist_cmd kubectl 1> /dev/null) || install_kubectl
+
+(exist_cmd kubectl 2> /dev/null) || install_kubectl
 
 wait_for_enter
 
@@ -96,7 +104,7 @@ function install_kubectx() {
 }
 
 (exist_cmd kubectx) && {
-  echo -n "UPDATE kubectx? (y/n) > "
+  text_w_color "UPDATE kubectx? (y/n) > " "Yellow"
   read to_update
   if is_true $to_update; then
     install_kubectx

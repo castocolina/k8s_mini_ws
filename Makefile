@@ -2,16 +2,30 @@ export K8_PROFILE_NAME=workshop
 export K8_LOG_LEVEL=2
 	
 
-tools:
-	@bash part1_tools/n1_virtualization.sh
-	@bash part1_tools/n2_minikube.sh
-	@bash part1_tools/n3_versions.sh
+tools: install
+
+install: install_virt install_tools
+	@bash scripts/part1_tools/n3_versions.sh
+
+install_virt:
+	@scripts/part1_tools/n1_virtualization.sh
+
+install_tools:
+	@scripts/part1_tools/n2_minikube.sh
 
 boot: create
 start: create
 minikube: create
 create:
-	@bash part2_minik8s_start/start.sh
+	@bash scripts/part2_minik8s_start/start.sh
+
+test_hello: test
+test_ingress: test
+test:
+	@bash scripts/part2_minik8s_start/test_ingress.sh
+
+install_crds:
+	@bash scripts/part2_minik8s_start/install_ss_crd.sh
 
 show_ip:
 	@echo "minikube ip --v=$$K8_LOG_LEVEL -p $${K8_PROFILE_NAME}"; 

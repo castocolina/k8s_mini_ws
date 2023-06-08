@@ -8,6 +8,8 @@ export MY_PLATFORM=$(uname -m)
 export K8_PROFILE_NAME=workshop
 export K8_NAMESPACE="workshop-ns"
 
+mkdir -p tmp
+
 source /etc/os-release &>/dev/null
 
 function exist_cmd() {
@@ -41,23 +43,23 @@ function is_false() {
 }
 
 function is_linux() {
-  echo $MY_OS | grep -iqF "linux" && return
-  false  
+  echo $MY_OS | grep -iqF "linux" && return 0;
+  return 1;
 }
 
 function is_macos() {
-  echo $MY_OS | grep -iqF "Darwin" && return
-  false
+  echo $MY_OS | grep -iqF "Darwin" && return  0;
+  return 1;
 }
 
 function is_arch() {
-  echo $ID_LIKE | grep -iqF "arch" || echo $ID | grep -iqF "arch" && return
-  false
+  echo $ID_LIKE | grep -iqF "arch" || echo $ID | grep -iqF "arch" && return 0;
+  return 1;
 }
 
 function is_ubuntu() {
-   echo $ID_LIKE | grep -iqF "ubuntu" || echo $ID | grep -iqF "ubuntu" && return
-   false
+  echo $ID_LIKE | grep -iqF "ubuntu" || echo $ID | grep -iqF "ubuntu" && return 0;
+  return 1;
 }
 
 function wait_time(){

@@ -5,6 +5,8 @@ Presentation https://docs.google.com/presentation/d/1bZDzrIPnhK8qVwNvo8hw524POwH
 
 ### References
 
+- https://minikube.sigs.k8s.io/docs/drivers/
+
 - https://github.com/bitnami-labs/sealed-secrets
 
 - https://github.com/jonmosco/kube-ps1

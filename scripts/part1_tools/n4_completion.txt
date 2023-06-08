@@ -12,17 +12,28 @@ source <(kubectl completion zsh)
 
 
 ################################
-##           BASH              #
+##           BASH  Ubuntu      #
 ################################
 
 ### Install bash-completion
 # Bash Ubuntu +
 sudo apt-get install bash-completion
+
+################################
+##           BASH  MacOS       #
+################################
 # Bash maC
 brew install bash-completion@2
+
+################################
+##           BASH  Manjaro     #
+################################
 # Bash Arch/Manjaro
 sudo pacman -S bash-completion
 
+################################
+##           BASH              #
+################################
 ## Load bash_completion
 source /usr/share/bash-completion/bash_completion
 

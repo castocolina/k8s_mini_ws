@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BASEDIR=$(dirname "$0")
-source $BASEDIR/../common/common.sh
+source $BASEDIR/../commons/common.sh
 
 echo
 
