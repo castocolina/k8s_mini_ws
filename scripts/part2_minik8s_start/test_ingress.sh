@@ -8,6 +8,8 @@ kubectx ${K8_PROFILE_NAME}
 echo
 
 minikube -p ${K8_PROFILE_NAME} kubectl -- create deployment web --image=gcr.io/google-samples/hello-app:1.0
+wait_time 5
+minikube -p ${K8_PROFILE_NAME} kubectl -- get pods -l=app=web
 wait_for_enter
 minikube -p ${K8_PROFILE_NAME} kubectl -- expose deployment web --type=NodePort --port=8080
 wait_for_enter
@@ -21,7 +23,7 @@ wait_for_enter
 minikube -p ${K8_PROFILE_NAME} kubectl -- apply -f https://k8s.io/examples/service/networking/example-ingress.yaml
 wait_for_enter
 
-wait_time 10
+wait_time 5
 minikube -p ${K8_PROFILE_NAME}  kubectl get ingress
 echo; echo;
 

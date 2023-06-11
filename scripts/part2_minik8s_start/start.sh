@@ -16,7 +16,7 @@ export K8_MINIK_DISK=25GB
 export K8_LOG_LEVEL=2
 # https://kubernetes.io/releases/
 # https://github.com/kubernetes/sig-release/blob/master/releases/patch-releases.md#cadence
-export K8_API_VERSION="v1.27.2";
+export K8_API_VERSION="v1.26.3";
 
 # https://minikube.sigs.k8s.io/docs/drivers/
 export K8_MINIKUBE_DRIVER=docker ## virtualbox, hyperkit
