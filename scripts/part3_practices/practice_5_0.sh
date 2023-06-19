@@ -3,10 +3,10 @@ BASEDIR=$(dirname "$0")
 source $BASEDIR/../common/common.sh
 
 # create application stack
-kubectl apply -f ./practices/part5/practice_5_1_config.yaml
-kubectl delete -f ./practices/part5/practice_5_1_deploy.yaml
-kubectl apply -f ./practices/part5/practice_5_1_deploy.yaml
-kubectl apply -f ./practices/part5/practice_5_1_service.yaml
+kubectl apply -f ./scripts/part3_practices/practice_5_1_config.yaml
+kubectl delete -f ./scripts/part3_practices/practice_5_1_deploy.yaml
+kubectl apply -f ./scripts/part3_practices/practice_5_1_deploy.yaml
+kubectl apply -f ./scripts/part3_practices/practice_5_1_service.yaml
 
 echo
 echo 
@@ -40,8 +40,8 @@ printf "\n\n\n\n"
 kubectl create configmap node-app-from-files -n workshop-ns \
     --from-file=practices/part5/demo/
 
-kubectl apply -f ./practices/part5/practice_5_2_0_storage.yaml
-kubectl apply -f ./practices/part5/practice_5_1_config.yaml
-kubectl delete -f ./practices/part5/practice_5_2_deploy.yaml
-kubectl apply -f ./practices/part5/practice_5_2_deploy.yaml
-kubectl apply -f ./practices/part5/practice_5_2_service.yaml
+kubectl apply -f ./scripts/part3_practices/practice_5_2_0_storage.yaml
+kubectl apply -f ./scripts/part3_practices/practice_5_1_config.yaml
+kubectl delete -f ./scripts/part3_practices/practice_5_2_deploy.yaml
+kubectl apply -f ./scripts/part3_practices/practice_5_2_deploy.yaml
+kubectl apply -f ./scripts/part3_practices/practice_5_2_service.yaml

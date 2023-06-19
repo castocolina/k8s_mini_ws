@@ -21,7 +21,7 @@ kubectl create configmap special-config -n workshop-ns \
     --output=yaml
 
 # create the configmap & pod
-kubectl apply -f ./practices/part3/practice_3_1_config.yaml
+kubectl apply -f ./scripts/part3_practices/practice_3_1_config.yaml
 
 # List pods
 kubectl get pods -n workshop-ns
@@ -41,7 +41,7 @@ kubectl exec -n workshop-ns configmap-demo-pod -- sh -c "ls /config/;cat /config
 #######################################################
 kubens workshop-ns
 
-kubectl apply -f ./practices/part3/practice_3_2_secrets.yaml
+kubectl apply -f ./scripts/part3_practices/practice_3_2_secrets.yaml
 
 kubectl exec -ti  secret-env-pod -- bash
 
