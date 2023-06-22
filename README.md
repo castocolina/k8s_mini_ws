@@ -1,6 +1,12 @@
 # k8s minikube whorkshop
 
-<!-- TOC
+## Table of Contents
+
+1. [Create our cluster](#create-our-content)
+2. [Nodes & Namespaces](#nodes--namespaces)
+2. [Pods, ReplicaSet & Deployments](#pods-replicaset--deployments)
+
+<!--
 
 Presentation https://docs.google.com/presentation/d/1bZDzrIPnhK8qVwNvo8hw524POwHdrv1RUkoVeQWcNuQ/edit?usp=sharing
  -->
