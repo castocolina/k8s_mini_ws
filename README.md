@@ -1,9 +1,9 @@
 # k8s minikube whorkshop
 
-TOC
+<!-- TOC
 
 Presentation https://docs.google.com/presentation/d/1bZDzrIPnhK8qVwNvo8hw524POwHdrv1RUkoVeQWcNuQ/edit?usp=sharing
-
+ -->
 ## Create our cluster
 
 ### Tools
@@ -108,13 +108,13 @@ minikube addons enable metrics-server --v=$K8_LOG_LEVEL -p $K8_PROFILE_NAME
 ### Dashboard
 
 ``` bash
-minikube dashboard -p $K8_PROFILE_NAME
+make dashboard
 ```
 
 or
 
 ``` bash
-make dashboard
+minikube dashboard -p $K8_PROFILE_NAME
 ```
 
 ## Nodes & Namespaces
@@ -134,7 +134,9 @@ Kubernetes supports multiple virtual clusters backed by the same physical cluste
 
 ### Practice 1 - Namespaces
 
-scripts/part3_practices/practice_1_namespaces.sh
+Recomendations: Use `kubens`.
+
+> scripts/part3_practices/practice_1_namespaces.sh
 
 ``` bash
 
@@ -171,6 +173,81 @@ kubectl create -f ./scripts/part3_practices/practice_1_namespaces.yaml --dry-run
 ```
 
 Explore the files, play, enjoy! 😊
+
+## Pods, ReplicaSet & Deployments
+
+### Pods
+
+**Pods** are the smallest deployable units of computing that you can create and manage in Kubernetes.
+
+
+A **Pod** (as in a pod of whales or pea pod) **is a group of one or more containers, with shared storage and network resources, and a specification for how to run the containers**. A Pod models an application-specific "logical host": it contains one or more application containers which are relatively tightly coupled. In non-cloud contexts, applications executed on the same physical or virtual machine are analogous to cloud applications executed on the same logical host.
+
+
+Usually you don't need to create Pods directly, even singleton Pods. Instead, create them using workload resources such as Deployment or Job.
+
+
+Pods in a Kubernetes cluster are used in two main ways:
+
+- Pods that run a single container
+- Pods that run multiple containers that need to work together
+
+![Pod](images/pod.svg)
+
+### ReplicaSet
+
+A **ReplicaSet**'s purpose is to maintain a stable set of replica Pods running at any given time. As such, it is often used to guarantee the availability of a specified number of identical Pods.
+
+A **ReplicaSet** <u>is defined with fields</u>, including a selector that specifies how to identify Pods it can acquire, a number of replicas indicating how many Pods it should be maintaining, and a pod template specifying the data of new Pods it should create to meet the number of replicas criteria. A ReplicaSet then fulfills its purpose by creating and deleting Pods as needed to reach the desired number. When a ReplicaSet needs to create new Pods, it uses its Pod template.
+
+![Replicaset](images/Replicaset.png)
+
+### Deployment
+
+A **Deployment** provides declarative updates for Pods and ReplicaSets.
+
+
+You can define Deployments to create new ReplicaSets, or to remove existing Deployments and adopt all their resources with new Deployments.
+
+![Deployment](images/Deployment.png)
+
+### Practice 2 - Pods & Deployments
+
+> scripts/part3_practices/practice_2_0_pods_deployments.sh
+
+``` bash
+
+### List PODS, create, list by namespace
+kubectl get pods
+
+## Now try with watch command in diferent terminal
+watch kubectl get pods --namespace default
+watch kubectl get pods -n workshop-ns
+
+# create from yaml
+kubectl apply -f ./scripts/part3_practices/practice_2_1_pods.yaml
+
+kubectl get pods workshop-ns
+
+kubectl get pod mypod
+kubectl get pod mypod -n workshop-ns
+
+## List deployments, create
+
+# List from all namespaces (-A) with extra information (-o wide) and waiting for changes (-w)
+kubectl get deployments -A -o wide -w
+# -o could be json, yaml, wide (to show more fields than standar), custom format, etc
+
+# Create deploy from CLI
+kubectl create deployment snowflake --image=k8s.gcr.io/serve_hostname  -n=workshop-ns --replicas=2
+# Filter by labels
+kubectl get pods -l app=snowflake -n=workshop-ns
+# Describe
+kubectl describe pods -l app=snowflake -n=workshop-ns
+kubectl describe deployment snowflake -n=workshop-ns
+# create from yaml
+kubectl apply -f ./scripts/part3_practices/practice_2_2_deployment.yaml
+```
 
 ## References
 

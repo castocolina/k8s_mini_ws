@@ -4,9 +4,9 @@
 ### List PODS, create, list by namespace
 kubectl get pods
 
-kubectl get pods --namespace default
-
-kubectl get pods -n workshop-ns
+## Now try with watch command in diferent terminal
+watch kubectl get pods --namespace default
+watch kubectl get pods -n workshop-ns
 
 # create from yaml
 kubectl apply -f ./scripts/part3_practices/practice_2_1_pods.yaml
