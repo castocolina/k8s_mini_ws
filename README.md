@@ -246,7 +246,7 @@ Pods in a Kubernetes cluster are used in two main ways:
 - Pods that run a single container
 - Pods that run multiple containers that need to work together
 
-<img width="300px" src="images/pod.svg"/>
+<img width="400px" src="images/pod.svg" alt="Pod"/>
 
 ### ReplicaSet
 
@@ -254,7 +254,7 @@ A **ReplicaSet**'s purpose is to maintain a stable set of replica Pods running a
 
 A **ReplicaSet** <u>is defined with fields</u>, including a selector that specifies how to identify Pods it can acquire, a number of replicas indicating how many Pods it should be maintaining, and a pod template specifying the data of new Pods it should create to meet the number of replicas criteria. A ReplicaSet then fulfills its purpose by creating and deleting Pods as needed to reach the desired number. When a ReplicaSet needs to create new Pods, it uses its Pod template.
 
-![Replicaset](images/Replicaset.png)
+<img width="400px" src="images/Replicaset.png" alt="Replicaset"/>
 
 ### Deployment
 
