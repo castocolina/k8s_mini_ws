@@ -4,13 +4,13 @@
 # Use the kubectl create configmap command to create ConfigMaps from directories, files, or literal values:
 # Create the configmap from files
 kubectl create configmap game-config-from-files -n workshop-ns \
-    --from-file=practices/part3/samplefiles/ \
+    --from-file=samplefiles/ \
     --dry-run=client \
     --output=yaml
 
 # Create the configmap from file like env vars
 kubectl create configmap game-config-env-file -n workshop-ns \
-    --from-env-file=practices/part3/samplefiles/game.properties \
+    --from-env-file=samplefiles/game.properties \
     --dry-run=client \
     --output=yaml
 

@@ -70,5 +70,5 @@ echo
 echo
 
 CERTIFICATE_B64=$(kubectl get secret dev-server-creds -o jsonpath='{.data.certificate\.pem}')
-CERTIFICATE_PLAIN=$(echo ${CERTIFICATE_B64} | base64 -i --decode)
+CERTIFICATE_PLAIN=$(echo ${CERTIFICATE_B64} | base64 --decode)
 echo "$CERTIFICATE_PLAIN"
