@@ -112,6 +112,66 @@ function install_kubectx() {
 }
 (exist_cmd kubectx 1> /dev/null) || install_kubectx
 
+function install_jq() {
+  echo "INSTALL jq";
+  JQ_URL=https://github.com/jqlang/jq/releases/download/jq-1.6/jq-linux64
+  if is_macos; then
+    JQ_URL=https://github.com/jqlang/jq/releases/download/jq-1.6/jq-osx-amd64
+  fi
+
+  mkdir -p tmp
+  curl -fSL -o tmp/jq "${JQ_URL}"
+  chmod +x tmp/jq
+  if is_macos; then
+    mv -v tmp/jq /usr/local/bin/jq
+    ls -la /usr/local/bin/jq
+  fi
+  if is_ubuntu; then
+    sudo mv -v tmp/jq /usr/bin/jq
+    ls -la /usr/bin/jq
+  fi
+  jq --version
+}
+
+(exist_cmd jq) && {
+  text_w_color "UPDATE jq? (y/n) > " "Yellow"
+  read to_update
+  if is_true $to_update; then
+    install_jq
+  fi
+}
+(exist_cmd jq 1> /dev/null) || install_jq
+
+function install_yq() {
+  echo "INSTALL yq";
+  JQ_URL=https://github.com/mikefarah/yq/releases/download/v4.34.1/yq_linux_amd64
+  if is_macos; then
+    JQ_URL=https://github.com/mikefarah/yq/releases/download/v4.34.1/yq_darwin_arm64
+  fi
+
+  mkdir -p tmp
+  curl -fSL -o tmp/yq "${JQ_URL}"
+  chmod +x tmp/yq
+  if is_macos; then
+    mv -v tmp/yq /usr/local/bin/yq
+    ls -la /usr/local/bin/yq
+  fi
+  if is_ubuntu; then
+    sudo mv -v tmp/yq /usr/bin/yq
+    ls -la /usr/bin/yq
+  fi
+  yq --version
+}
+
+(exist_cmd yq) && {
+  text_w_color "UPDATE yq? (y/n) > " "Yellow"
+  read to_update
+  if is_true $to_update; then
+    install_yq
+  fi
+}
+(exist_cmd yq 1> /dev/null) || install_yq
+
 wait_for_enter
 
 
