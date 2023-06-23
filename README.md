@@ -246,10 +246,7 @@ Pods in a Kubernetes cluster are used in two main ways:
 - Pods that run a single container
 - Pods that run multiple containers that need to work together
 
-<div style="width:300px; height: 300px" markdown="1">
-
-![Pod](images/pod.svg)
-</div>
+<img width="300px" src="images/pod.svg"/>
 
 ### ReplicaSet
 
