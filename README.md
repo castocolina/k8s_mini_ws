@@ -248,7 +248,7 @@ Pods in a Kubernetes cluster are used in two main ways:
 
 <div style="width:300px; height: 300px" markdown="1">
 
-![Pod](images/pod.svg){width=300 height=5}
+![Pod](images/pod.svg)
 </div>
 
 ### ReplicaSet
